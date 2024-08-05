@@ -1,0 +1,28 @@
+$ipd_admission = IpdAdmission::where('ipd_admissions.patient_id' , $id)
+        ->leftJoin('sale_invoices' , 'sale_invoices.id' , '=' , 'ipd_admissions.sale_invoice_id')
+        ->leftJoin('accounts' , 'accounts.id' , '=' , 'ipd_admissions.patient_id')
+        ->leftJoin('account_addresses' , 'account_addresses.account_id' , '=' , 'accounts.id')
+        ->leftJoin('account_contacts' , 'account_contacts.account_id' , '=' , 'accounts.id')
+        ->leftJoin('genders' , 'account_contacts.account_gender_id' , '=' , 'genders.id')
+        ->leftJoin('countries' , 'account_addresses.country_id' , '=' , 'countries.id')
+        ->leftJoin('companies' , 'companies.id' , '=' , 'accounts.company_id')
+        ->select(
+            'ipd_admissions.admission_date_time' ,
+            'sale_invoices.invoice_date' , 
+            'ipd_admissions.ipd_admission_no',
+            'accounts.name as patient_name' ,
+            'accounts.code as code' ,
+            'companies.name as company_name' ,
+            'countries.name as country_name' ,
+            'genders.name as gender_name' ,
+            DB::raw('TIMESTAMPDIFF(YEAR, account_contacts.date_of_birth, CURDATE()) as age') ,
+            'account_addresses.address_line1 as address' ,
+            'account_contacts.marital_status as status' ,
+            'sale_invoices.main_invoice_no as invoice_no' ,
+            'sale_invoices.due_amount as due_amount' ,
+            'sale_invoices.tpa_corporate_id as tpa_corporate_id' ,
+            'account_contacts.phone_no as phone_no' ,
+            'sale_invoices.reff_no as referal_no' ,
+
+        )
+        ->first();
