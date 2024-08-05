@@ -16,13 +16,7 @@ $ipd_admission = IpdAdmission::where('ipd_admissions.patient_id' , $id)
             'countries.name as country_name' ,
             'genders.name as gender_name' ,
             DB::raw('TIMESTAMPDIFF(YEAR, account_contacts.date_of_birth, CURDATE()) as age') ,
-            'account_addresses.address_line1 as address' ,
-            'account_contacts.marital_status as status' ,
-            'sale_invoices.main_invoice_no as invoice_no' ,
-            'sale_invoices.due_amount as due_amount' ,
-            'sale_invoices.tpa_corporate_id as tpa_corporate_id' ,
-            'account_contacts.phone_no as phone_no' ,
-            'sale_invoices.reff_no as referal_no' ,
+     
 
         )
         ->first();
